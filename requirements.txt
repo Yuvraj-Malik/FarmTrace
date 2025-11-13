@@ -1,0 +1,27 @@
+# === FastAPI core ===
+fastapi
+uvicorn
+
+# === Database & ORM ===
+sqlalchemy
+psycopg2-binary
+
+# === Authentication & Security ===
+passlib[argon2]
+python-multipart
+PyJWT
+
+# === Validation & Environment ===
+pydantic
+email-validator
+python-dotenv
+
+# === Media & AI utilities ===
+cloudinary
+numpy==1.26.4
+opencv-python
+keras==3.1.1
+tensorflow-cpu==2.16.1
+twilio==9.8.6
+argon2-cffi
+

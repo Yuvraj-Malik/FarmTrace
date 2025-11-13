@@ -1,0 +1,24 @@
+# ENV
+.env
+
+# Virtual environment
+.venv/
+
+# PyCache
+__pycache__/
+*.pyc
+
+# Models
+models/
+*.h5
+*.pkl
+
+# Local DB
+data/
+
+# Docker ignored folders
+pgdata/
+
+# Editor files
+.vscode/
+.DS_Store
