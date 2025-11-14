@@ -45,11 +45,14 @@ def farmer_signup(data: schemas.FarmerSignup, db: Session = Depends(get_db)):
     token = create_access_token({"id": new_farmer.id, "role": "farmer"})
 
     return {
-        "id": new_farmer.id,
-        "name": new_farmer.name,
-        "phone": new_farmer.phone,
-        "role": "farmer",
-        "token": token
+        "access_token": token,
+        "token_type": "bearer",
+        "user": {
+            "id": new_farmer.id,
+            "name": new_farmer.name,
+            "phone": new_farmer.phone,
+            "role": "farmer"
+        }
     }
 
 
@@ -69,11 +72,14 @@ def farmer_login(data: schemas.FarmerLogin, db: Session = Depends(get_db)):
     token = create_access_token({"id": farmer.id, "role": "farmer"})
 
     return {
-        "id": farmer.id,
-        "name": farmer.name,
-        "phone": farmer.phone,
-        "role": "farmer",
-        "token": token
+        "access_token": token,
+        "token_type": "bearer",
+        "user": {
+            "id": farmer.id,
+            "name": farmer.name,
+            "phone": farmer.phone,
+            "role": "farmer"
+        }
     }
 
 
@@ -114,11 +120,14 @@ def vet_signup(
     token = create_access_token({"id": new_vet.id, "role": "vet"})
 
     return {
-        "id": new_vet.id,
-        "name": new_vet.name,
-        "phone": new_vet.phone,
-        "role": "vet",
-        "token": token
+        "access_token": token,
+        "token_type": "bearer",
+        "user": {
+            "id": new_vet.id,
+            "name": new_vet.name,
+            "phone": new_vet.phone,
+            "role": "vet"
+        }
     }
 
 
@@ -138,9 +147,12 @@ def vet_login(data: schemas.VetLogin, db: Session = Depends(get_db)):
     token = create_access_token({"id": vet.id, "role": "vet"})
 
     return {
-        "id": vet.id,
-        "name": vet.name,
-        "phone": vet.phone,
-        "role": "vet",
-        "token": token
+        "access_token": token,
+        "token_type": "bearer",
+        "user": {
+            "id": vet.id,
+            "name": vet.name,
+            "phone": vet.phone,
+            "role": "vet"
+        }
     }

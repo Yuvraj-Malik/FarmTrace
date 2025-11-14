@@ -1,7 +1,6 @@
 from passlib.context import CryptContext
 import jwt
 from datetime import datetime, timedelta, timezone
-from app.config import SECRET_KEY
 
 pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
 SECRET_KEY = "farmtrace_secret_key"
@@ -28,6 +27,15 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
 
 def decode_token(token: str):
     try:
-        return jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-    except jwt.PyJWTError:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        print(f"🔍 DEBUG decode_token: Successfully decoded payload = {payload}")
+        return payload
+    except jwt.ExpiredSignatureError:
+        print("❌ DEBUG decode_token: Token expired")
+        return None
+    except jwt.InvalidTokenError as e:
+        print(f"❌ DEBUG decode_token: Invalid token - {e}")
+        return None
+    except Exception as e:
+        print(f"❌ DEBUG decode_token: Unexpected error - {e}")
         return None

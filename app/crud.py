@@ -1,48 +1,9 @@
 from sqlalchemy.orm import Session
 from app import models
-from app.auth_utils import hash_password
 from passlib.context import CryptContext
-import app.models as models
+
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# ---------------- FARMER ----------------
-def get_farmer_by_phone(db: Session, phone: str):
-    return db.query(models.Farmer).filter(models.Farmer.phone == phone).first()
-
-
-def create_farmer(db: Session, data):
-    farmer = models.Farmer(
-        name=data.name,
-        phone=data.phone,
-        state=data.state,
-        district=data.district,
-        pincode=data.pincode,
-        password_hash=hash_password(data.password),
-    )
-    db.add(farmer)
-    db.commit()
-    db.refresh(farmer)
-    return farmer
-
-
-# ---------------- VET ----------------
-def get_vet_by_phone(db: Session, phone: str):
-    return db.query(models.Veterinarian).filter(models.Veterinarian.phone == phone).first()
-
-
-def create_vet(db: Session, data):
-    vet = models.Veterinarian(
-        name=data.name,
-        phone=data.phone,
-        clinic_state=data.clinic_state,
-        clinic_district=data.clinic_district,
-        clinic_pincode=data.clinic_pincode,
-        password_hash=hash_password(data.password),
-    )
-    db.add(vet)
-    db.commit()
-    db.refresh(vet)
-    return vet
 
 # ---------------------------
 # Password helpers
@@ -103,13 +64,18 @@ def get_vet_by_phone(db: Session, phone: str):
 # ---------------------------
 # CATTLE CRUD
 # ---------------------------
-def create_cattle(db: Session, farmer_id: int, data):
+def create_cattle(db: Session, farmer_id: int, data: dict):
+    """
+    Create a new cattle entry.
+    data should be a dictionary with keys: tag_id, breed, dob, location
+    """
     cattle = models.Cattle(
-        tag_id=data.tag_id,
-        breed=data.breed,
-        dob=data.dob,
-        location=data.location,
-        owner_id=farmer_id
+        tag_id=data["tag_id"],
+        breed=data.get("breed"),
+        dob=data.get("dob"),
+        location=data.get("location"),
+        owner_id=farmer_id,
+        status="pending"
     )
     db.add(cattle)
     db.commit()

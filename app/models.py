@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey,Float
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from app.database import Base
@@ -87,3 +87,15 @@ class Treatment(Base):
     date = Column(DateTime)
     safe_to_sell = Column(DateTime)
     hash = Column(String)
+
+class MedicalRecord(Base):
+    __tablename__ = "medical_records"
+
+    id = Column(Integer, primary_key=True, index=True)
+    cattle_id = Column(Integer, ForeignKey("cattle.id"))
+    image_url = Column(String)
+    diagnosis = Column(String)
+    score = Column(Float)
+    timestamp = Column(DateTime, default=datetime.utcnow)
+
+    cattle = relationship("Cattle")
